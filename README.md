@@ -1,6 +1,6 @@
 # UranTrip
 ## Live Link
-This project was (react router, firebase auth) with [UranTrip](https://ecma-travels.web.app).
+This project was (react router, firebase auth, mongodb) with [UranTrip](https://ecma-travels.web.app).
 
 ## Important points
 
