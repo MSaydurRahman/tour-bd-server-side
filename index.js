@@ -5,7 +5,7 @@ const cors = require('cors')
 require('dotenv').config();
 
 const app = express();
-const port = process.env.PORT||5000;
+const port = process.env.PORT || 5000;
 //
 app.use(cors());
 app.use(express.json());
@@ -27,7 +27,10 @@ async function run() {
             res.send(services)
         })
         app.get('/orders', async (req, res) => {
-            const cursor = orderCollection.find({})
+            const email = req.query.email;
+            const query = { email: email }
+            console.log(query)
+            const cursor = orderCollection.find(query)
             const orders = await cursor.toArray();
             res.send(orders)
         })
