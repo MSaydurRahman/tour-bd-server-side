@@ -20,6 +20,7 @@ async function run() {
         const database = client.db('tourBd');
         const servicesCollection = database.collection('services');
         const orderCollection = database.collection('orders');
+        const usersCollection = database.collection('users')
         //GET API
         app.get('/services', async (req, res) => {
             const cursor = servicesCollection.find({})
@@ -29,7 +30,7 @@ async function run() {
         app.get('/orders', async (req, res) => {
             const email = req.query.email;
             const query = { email: email }
-            console.log(query)
+            // console.log(query)
             const cursor = orderCollection.find(query)
             const orders = await cursor.toArray();
             res.send(orders)
@@ -40,13 +41,20 @@ async function run() {
             const service = req.body;
             console.log('hit the service post api', service)
             const result = await servicesCollection.insertOne(service);
-            console.log(result)
+            // console.log(result)
             res.json(result)
         })
         app.post('/orders', async (req, res) => {
             const order = req.body;
             console.log('hit the order post api', order)
             const result = await orderCollection.insertOne(order);
+            // console.log(result)
+            res.json(result)
+        })
+
+        app.post('/users', async (req, res) => {
+            const user = req.body;
+            const result = await usersCollection.insertOne(user);
             console.log(result)
             res.json(result)
         })
