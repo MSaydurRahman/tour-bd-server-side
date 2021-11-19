@@ -21,12 +21,19 @@ async function run() {
         const servicesCollection = database.collection('services');
         const orderCollection = database.collection('orders');
         const usersCollection = database.collection('users')
+        const reviewsCollection = database.collection('reviews')
         //GET API
         app.get('/services', async (req, res) => {
             const cursor = servicesCollection.find({})
             const services = await cursor.toArray();
             res.send(services)
         })
+        app.get('/reviews', async (req, res) => {
+            const cursor = reviewsCollection.find({})
+            const reviews = await cursor.toArray()
+            res.send(reviews)
+        })
+
         app.get('/orders', async (req, res) => {
             const email = req.query.email;
             const query = { email: email }
@@ -62,6 +69,12 @@ async function run() {
             // console.log(result)
             res.json(result)
         })
+        app.post('/reviews', async (req, res) => {
+            const review = req.body;
+            console.log('hit the review post api', review)
+            const result = await reviewsCollection.insertOne(review)
+            res.json(result)
+        })
         app.post('/orders', async (req, res) => {
             const order = req.body;
             console.log('hit the order post api', order)
@@ -92,6 +105,13 @@ async function run() {
             const query = { _id: ObjectId(id) };
             const result = await orderCollection.deleteOne(query);
             res.json(result);
+        })
+        //
+        app.delete('/services/:id', async (req, res) => {
+            const id = req.params.id
+            const query = { _id: ObjectId(id) };
+            const result = await servicesCollection.deleteOne(query);
+            res.json(result)
         })
     }
     finally {
